@@ -30,6 +30,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
+//TEst
 public class MainActivity1 extends Activity implements OnClickListener,
         ConnectionCallbacks, OnConnectionFailedListener {
 
