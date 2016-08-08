@@ -62,7 +62,7 @@ public class MainActivity1 extends Activity implements OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main1);
+        setContentView(R.layout.activity_main);
 
         btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
         btnSignOut = (Button) findViewById(R.id.btn_sign_out);
@@ -79,7 +79,6 @@ public class MainActivity1 extends Activity implements OnClickListener,
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
-             //   .addOnConnectionFailedListener(this).addApi(Plus.API, null)
                 .addOnConnectionFailedListener(this).addApi(Plus.API, Plus.PlusOptions.builder().build())
                 .addScope(Plus.SCOPE_PLUS_LOGIN).build();
     }
@@ -98,7 +97,7 @@ public class MainActivity1 extends Activity implements OnClickListener,
 
     /**
      * Method to resolve any signin errors
-     */
+     * */
     private void resolveSignInError() {
         if (mConnectionResult.hasResolution()) {
             try {
@@ -113,7 +112,6 @@ public class MainActivity1 extends Activity implements OnClickListener,
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        mConnectionResult = result;
         if (!result.hasResolution()) {
             GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,
                     0).show();
@@ -122,8 +120,7 @@ public class MainActivity1 extends Activity implements OnClickListener,
 
         if (!mIntentInProgress) {
             // Store the ConnectionResult for later usage
-
-          //  mConnectionResult = result;
+            mConnectionResult = result;
 
             if (mSignInClicked) {
                 // The user has already clicked 'sign-in' so we attempt to
@@ -166,7 +163,7 @@ public class MainActivity1 extends Activity implements OnClickListener,
 
     /**
      * Updating the UI, showing/hiding buttons and profile layout
-     */
+     * */
     private void updateUI(boolean isSignedIn) {
         if (isSignedIn) {
             btnSignIn.setVisibility(View.GONE);
@@ -183,7 +180,7 @@ public class MainActivity1 extends Activity implements OnClickListener,
 
     /**
      * Fetching user's information name, email, profile pic
-     */
+     * */
     private void getProfileInformation() {
         try {
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
@@ -225,16 +222,16 @@ public class MainActivity1 extends Activity implements OnClickListener,
         updateUI(false);
     }
 
-   // @Override
-   public boolean onCreateOptionsMenu(Menu menu) {
-     // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_main, menu);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-  }
+    }
 
     /**
      * Button on click listener
-     */
+     * */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -255,7 +252,7 @@ public class MainActivity1 extends Activity implements OnClickListener,
 
     /**
      * Sign-in into google
-     */
+     * */
     private void signInWithGplus() {
         if (!mGoogleApiClient.isConnecting()) {
             mSignInClicked = true;
@@ -265,7 +262,7 @@ public class MainActivity1 extends Activity implements OnClickListener,
 
     /**
      * Sign-out from google
-     */
+     * */
     private void signOutFromGplus() {
         if (mGoogleApiClient.isConnected()) {
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
@@ -277,7 +274,7 @@ public class MainActivity1 extends Activity implements OnClickListener,
 
     /**
      * Revoking access from google
-     */
+     * */
     private void revokeGplusAccess() {
         if (mGoogleApiClient.isConnected()) {
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
@@ -296,7 +293,7 @@ public class MainActivity1 extends Activity implements OnClickListener,
 
     /**
      * Background Async task to load user profile picture from url
-     */
+     * */
     private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
@@ -321,4 +318,5 @@ public class MainActivity1 extends Activity implements OnClickListener,
             bmImage.setImageBitmap(result);
         }
     }
+
 }
